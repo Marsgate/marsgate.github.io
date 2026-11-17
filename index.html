@@ -1,235 +1,547 @@
-<!DOCTYPE html>
-<html class="no-js" lang="en">
-
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Micah Rassi | Full-Stack Developer | Robotics Engineering Background</title>
-    <meta name="description" content="Micah Rassi is a full stack developer and Purdue Robotics Engineering Technology graduate, and the founder of Loosey Goosey Robotics.">
-    <meta property="og:title" content="Micah Rassi | Full Stack Developer">
-    <meta property="og:description" content="Full stack developer at Polywood and founder of Loosey Goosey Robotics.">
-    <meta property="og:image" content="https://marsgate.github.io/images/portrait.jpg">
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
-    <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/styles.css?v=2" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Micah Rassi</title>
+<meta name="description" content="Micah Rassi, full-stack developer with a robotics engineering background.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a spec-sheet page. Sticky index rail on the left, content column on the right,
+   hero is a robot field with a pure-pursuit path running on it. Safety-yellow accent from robot work cells. */
+:root {
+  --bg: #f2f4f6;
+  --surface: #ffffff;
+  --ink: #131c25;
+  --muted: #56636f;
+  --rule: #d5dbe1;
+  --grid: #dde3e9;
+  --accent: #f0b400;         /* safety yellow, used as fill */
+  --accent-ink: #7a5800;     /* yellow family, readable as text on light */
+  --path: #2a5bd7;
+  --on-accent: #131c25;
+
+  --f-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.25rem;
+  --step-2: 1.75rem;
+  --step-3: clamp(2.6rem, 7vw, 5rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f151b; --surface: #161e26; --ink: #e6ebef; --muted: #96a3ae;
+    --rule: #2a3540; --grid: #212b35; --accent: #f5c02a; --accent-ink: #f5c02a;
+    --path: #6f9bff; --on-accent: #131c25; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f151b; --surface: #161e26; --ink: #e6ebef; --muted: #96a3ae;
+  --rule: #2a3540; --grid: #212b35; --accent: #f5c02a; --accent-ink: #f5c02a;
+  --path: #6f9bff; --on-accent: #131c25; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+}
+a { color: inherit; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+a:hover { color: var(--accent-ink); }
+:focus-visible { outline: 3px solid var(--path); outline-offset: 2px; border-radius: 2px; }
+
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 56px;
+}
+
+/* index rail */
+.rail {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  align-self: start;
+  padding-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.mark {
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-stretch: 125%;
+  font-size: var(--step-1);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.mark i {
+  width: 14px; height: 14px; display: inline-block;
+  background: repeating-linear-gradient(-45deg, var(--accent) 0 4px, var(--ink) 4px 8px);
+}
+.rail nav ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.rail nav a {
+  font-family: var(--f-mono);
+  font-size: var(--step--1);
+  text-decoration: none;
+  color: var(--muted);
+  display: flex; gap: 10px;
+}
+.rail nav a span { color: var(--accent-ink); }
+.rail nav a:hover { color: var(--ink); }
+.status {
+  font-family: var(--f-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  border-top: 1px solid var(--rule);
+  padding-top: 14px;
+  display: grid; gap: 4px;
+}
+.status b { color: var(--ink); font-weight: 500; }
+
+main { display: flex; flex-direction: column; gap: 88px; padding-top: 40px; min-width: 0; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; align-items: end; }
+.eyebrow {
+  font-family: var(--f-mono);
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 14px;
+}
+h1 {
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-stretch: 112%;
+  font-size: var(--step-3);
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  margin: 0 0 22px;
+  text-wrap: balance;
+}
+h1 .hl { box-shadow: inset 0 -0.22em 0 var(--accent); }
+.lede { font-size: var(--step-1); line-height: 1.45; max-width: 34ch; margin: 0 0 26px; }
+.lede cite { display: block; margin-top: 8px; font-family: var(--f-mono); font-style: normal; font-size: var(--step--1); color: var(--muted); }
+.lede cite::before { content: "— "; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn {
+  font-family: var(--f-mono);
+  font-size: var(--step--1);
+  text-decoration: none;
+  border: 1.5px solid var(--ink);
+  padding: 8px 14px;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: background .15s, color .15s;
+}
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 500; }
+.btn:hover { background: var(--ink); color: var(--bg); }
+.btn.primary:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+
+.field { margin: 0; }
+.field canvas {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 100%;
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+}
+.field figcaption {
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+/* sections */
+section { scroll-margin-top: 24px; }
+.sec-head {
+  display: flex; align-items: baseline; gap: 14px;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 10px;
+  margin-bottom: 28px;
+}
+.sec-head .no { font-family: var(--f-mono); font-size: var(--step--1); color: var(--accent-ink); }
+h2 {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 118%;
+  font-size: var(--step-2);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  margin: 0;
+}
+h3 {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-stretch: 105%;
+  font-size: var(--step-1);
+  line-height: 1.25;
+  margin: 0;
+  text-wrap: balance;
+}
+.prose { max-width: 65ch; font-size: 1.0625rem; margin: 0; }
+
+/* experience */
+.jobs { display: flex; flex-direction: column; gap: 40px; }
+.job { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 24px; }
+.when {
+  font-family: var(--f-mono);
+  font-size: var(--step--1);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  padding-top: 4px;
+  line-height: 1.5;
+}
+.where { color: var(--muted); font-size: 0.9375rem; margin: 2px 0 12px; }
+.job ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; max-width: 65ch; }
+.job li::marker { color: var(--accent-ink); }
+.sub { margin-top: 22px; padding-top: 18px; border-top: 1px dashed var(--rule); }
+.sub h4 { font-family: var(--f-body); font-weight: 600; font-size: 1rem; margin: 0 0 6px; }
+
+/* projects */
+.projects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.proj {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  padding: 22px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.proj.wide { grid-column: 1 / -1; }
+.proj .meta { font-family: var(--f-mono); font-size: 0.75rem; color: var(--muted); display: flex; gap: 8px 14px; flex-wrap: wrap; }
+.proj p, .proj ul { margin: 0; }
+.proj ul { padding-left: 1.1em; display: grid; gap: 4px; }
+.proj li::marker { color: var(--accent-ink); }
+.proj .go { margin-top: auto; font-family: var(--f-mono); font-size: var(--step--1); }
+.titles { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.titles span {
+  font-family: var(--f-mono); font-size: 0.75rem; font-variant-numeric: tabular-nums;
+  border: 1.5px solid var(--accent); padding: 3px 9px;
+}
+.proj-split { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 28px; }
+
+/* education */
+.edu { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 24px; }
+.courses { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; padding: 0; list-style: none; }
+.courses li { font-size: 0.875rem; background: var(--surface); border: 1px solid var(--rule); padding: 5px 10px; }
+.courses code { font-family: var(--f-mono); font-size: 0.8rem; color: var(--accent-ink); margin-right: 6px; }
+
+/* skills */
+.skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--rule); }
+.skill { padding: 18px 20px 18px 0; border-bottom: 1px solid var(--rule); }
+.skill + .skill { padding-left: 20px; border-left: 1px solid var(--rule); }
+.skill dt { font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.skill dd { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; font-weight: 500; }
+
+/* contact */
+.contact { background: var(--ink); color: var(--bg); padding: 36px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; }
+.contact h2 { color: var(--bg); }
+.contact p { margin: 10px 0 0; max-width: 46ch; color: var(--bg); opacity: .8; }
+.contact .addr { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+.contact .addr span { font-family: var(--f-mono); font-size: var(--step-1); user-select: all; overflow-wrap: anywhere; }
+.copy {
+  font-family: var(--f-mono); font-size: 0.75rem; cursor: pointer;
+  background: var(--accent); color: var(--on-accent); border: 0; padding: 6px 10px;
+}
+.contact ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-family: var(--f-mono); font-size: var(--step--1); }
+.contact a { color: var(--bg); }
+.contact a:hover { color: var(--accent); }
+
+footer { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); }
+
+@media (max-width: 900px) {
+  .page { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .rail { position: static; padding-top: 24px; flex-direction: row; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .rail nav, .status { display: none; }
+  main { padding-top: 28px; gap: 64px; }
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .field { max-width: 440px; }
+}
+@media (max-width: 640px) {
+  .job, .edu { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .projects, .proj-split { grid-template-columns: minmax(0, 1fr); }
+  .skills { grid-template-columns: minmax(0, 1fr); }
+  .skill, .skill + .skill { padding: 16px 0; border-left: 0; }
+  .contact { grid-template-columns: minmax(0, 1fr); padding: 26px 20px; }
+}
+</style>
 </head>
-
 <body>
-    <div id="mobile-menu-open" class="shadow-large">
-        <i class="fa fa-bars" aria-hidden="true"></i>
+<div class="page">
+  <aside class="rail">
+    <a class="mark" href="#top"><i aria-hidden="true"></i>MR</a>
+    <nav aria-label="Sections">
+      <ol>
+        <li><a href="#about"><span>A1</span>About</a></li>
+        <li><a href="#experience"><span>A2</span>Experience</a></li>
+        <li><a href="#projects"><span>A3</span>Projects</a></li>
+        <li><a href="#education"><span>A4</span>Education</a></li>
+        <li><a href="#skills"><span>A5</span>Skills</a></li>
+        <li><a href="#contact"><span>A6</span>Contact</a></li>
+      </ol>
+    </nav>
+    <div class="status">
+      <div>LOCATION <b>Indianapolis</b></div>
+      <div>ROLE <b>Full-stack developer</b></div>
+      <div>SINCE <b>2019</b></div>
     </div>
-    <!-- End #mobile-menu-toggle -->
-    <header>
-        <div id="mobile-menu-close">
-            <span>Close</span> <i class="fa fa-times" aria-hidden="true"></i>
+  </aside>
+
+  <main id="top">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Full-stack developer · Robotics engineering</p>
+        <h1>Micah <span class="hl">Rassi</span></h1>
+        <p class="lede">“I just wanna build dope shit.”<cite>Kyle Sonaty</cite></p>
+        <div class="links">
+          <a class="btn primary" href="#contact">Get in touch</a>
+          <a class="btn" href="https://github.com/marsgate">GitHub ↗</a>
+          <a class="btn" href="https://linkedin.com/in/micah-rassi">LinkedIn ↗</a>
         </div>
-        <ul id="menu" class="shadow">
-            <li>
-                <a href="#about">About</a>
-            </li>
-            <li>
-                <a href="#experience">Experience</a>
-            </li>
-            <li>
-                <a href="#projects">Projects</a>
-            </li>
-            <li>
-                <a href="#skills">Skills</a>
-            </li>
-        </ul>
+      </div>
+      <figure class="field">
+        <canvas id="field" aria-label="Animated diagram of a robot following a curved path with a pure pursuit lookahead point on a 144 by 144 inch competition field" role="img"></canvas>
+        <figcaption><span>FIELD 144 × 144 in · TILE 24 in</span><span>PURE PURSUIT · LOOKAHEAD 18 in</span></figcaption>
+      </figure>
     </header>
-    <!-- End header -->
 
-    <div id="lead">
-        <div id="lead-content">
-            <h1>Micah Rassi</h1>
-            <h2>Full-Stack Developer<br>Robotics Engineering Background</h2>
-            <a href="Micah_Rassi_Resume.pdf" class="btn-rounded-white" download>Download Resume</a>
-        </div>
-        <!-- End #lead-content -->
+    <section id="about">
+      <div class="sec-head"><span class="no">A1</span><h2>About</h2></div>
+      <p class="prose">Full-stack developer with a B.S. in Robotics Engineering Technology from Purdue and five years building internal software with PHP, Java, MySQL, and React. I take projects from requirements through release and work directly with the people who use the software. I have hands-on experience with industrial arms and autonomous mobile robots, and I'm now using that background to start a business.</p>
+    </section>
 
-        <div id="lead-overlay"></div>
-
-        <div id="lead-down">
-            <span>
-                <i class="fa fa-chevron-down" aria-hidden="true"></i>
-            </span>
-        </div>
-        <!-- End #lead-down -->
-    </div>
-    <!-- End #lead -->
-
-    <div id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h2 class="heading">About Me</h2>
-                </div>
-                <div class="col-md-8">
-                    <img src="images/portrait.jpg" alt="Portrait of Micah Rassi"/>
-                    <p>
-                        I'm a full-stack developer at Polywood, where I build and maintain the company's internal software, from MySQL databases and PHP and Java back ends to React front ends. I take projects from the first requirements conversation through release, and I work directly with the people who use the tools.
-                    </p>
-                    <p>
-                        I earned a B.S. in Robotics Engineering Technology from Purdue University in 2023, and I've been building robots and writing software for more than ten years. In Purdue's Introduction to Robotics (MFET 24800) and Advanced Industrial Robotics (MFET 34800) courses, I programmed FANUC and Yamaha industrial robots, including 6-axis and SCARA arms, and set up work cell guarding, and through Purdue SIGbots I built and programmed autonomous mobile robots. In 2023 I started Loosey Goosey Robotics, a casual robotics competition, and I wrote the tournament software it runs on. I'd like to put that robotics background to work building software for the people who build robots. Lately I've been reading up on robot safety in my spare time, mostly to figure out how it applies to Loosey Goosey events.
-                    </p>
-                </div>
+    <section id="experience">
+      <div class="sec-head"><span class="no">A2</span><h2>Experience</h2></div>
+      <div class="jobs">
+        <article class="job">
+          <div class="when">May 2021 –<br>Present</div>
+          <div>
+            <h3>Full Stack Developer</h3>
+            <p class="where">Polywood · Syracuse, IN</p>
+            <ul>
+              <li>Build and maintain the internal applications that production, warehouse, and shipping teams use for orders, inventory, and production scheduling, with PHP, Java, MySQL, and React.</li>
+              <li>Work directly with users to find workflow bottlenecks and turn them into requirements and new features.</li>
+              <li>Manage projects in Jira and GitHub from requirements through release, setting scope and priorities.</li>
+              <li>Led a regression testing initiative that added end-to-end Selenium tests to the front end, tracked in TestRail.</li>
+              <li>Diagnose and fix UI and business-logic bugs in production systems, in both new and legacy code.</li>
+            </ul>
+            <div class="sub">
+              <h4>IT Intern <span class="when">· Jun 2020 – May 2021</span></h4>
+              <ul>
+                <li>Resolved service desk tickets and troubleshot end-user hardware and software issues.</li>
+                <li>Received, deployed, and retired company equipment.</li>
+              </ul>
             </div>
-        </div>
-    </div>
-    <!-- End #about -->
+          </div>
+        </article>
+        <article class="job">
+          <div class="when">Jan 2019 –<br>Aug 2019</div>
+          <div>
+            <h3>Junior Software Engineer</h3>
+            <p class="where">Raven Industries · Wakarusa, IN</p>
+            <ul>
+              <li>Built an internal monitoring service and Grafana dashboard to track application load for the Raven Slingshot team.</li>
+              <li>Wrote fixes and enhancements in C#, PHP, and SQL that shipped in product releases and patches.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
 
-    <div id="experience" class="background-alt">
-        <h2 class="heading">Experience</h2>
-        <div id="experience-timeline">
-
-            <div data-date="May 2021 – Present">
-                <h3>Polywood</h3>
-                <h4>Full Stack Developer</h4>
-                <p>
-                    I build and maintain the internal applications Polywood's production, warehouse, and shipping teams use for orders, inventory, and production scheduling, across the full stack with PHP, Java, MySQL, and React. I work directly with the people who use our software to find slow spots in their workflow, then plan and deliver the features that fix them. I manage projects in Jira and GitHub from requirements through release, and I led a regression testing initiative that added end-to-end Selenium tests to our front end, tracked in TestRail. I also track down and fix bugs in both UI and business logic.
-                </p>
+    <section id="projects">
+      <div class="sec-head"><span class="no">A3</span><h2>Projects</h2></div>
+      <div class="projects">
+        <article class="proj wide">
+          <div class="meta"><span>Purdue University</span><span>President · 2022</span></div>
+          <h3>Purdue ACM SIGbots</h3>
+          <div class="proj-split">
+            <ul>
+              <li>Led Purdue's VEX U robotics team, which designs, builds, and programs robots for top-level collegiate competition.</li>
+              <li>Programmed autonomous routines using tracking wheels, an IMU, and in-house PID and pure pursuit libraries.</li>
+              <li>Beta tested PROS, the open-source VEX development environment maintained by SIGbots.</li>
+            </ul>
+            <div>
+              <p class="meta">VEX U WORLD CHAMPIONS</p>
+              <div class="titles"><span>2020</span><span>2021</span><span>2022</span><span>2024</span><span>2026</span></div>
             </div>
+          </div>
+        </article>
+        <article class="proj">
+          <div class="meta"><span>Founder</span><span>2023 – Present</span></div>
+          <h3>Loosey Goosey Robotics</h3>
+          <p>Founded and grew a casual robotics competition from the ground up. I also built and maintain its website.</p>
+          <a class="go" href="https://looseygooseyrobotics.com">looseygooseyrobotics.com ↗</a>
+        </article>
+        <article class="proj">
+          <div class="meta"><span>Electron</span><span>Node.js</span><span>JavaScript</span></div>
+          <h3>Zippy Manager</h3>
+          <p>Desktop tournament software that generates match schedules, takes live scores from mobile devices, builds elimination brackets, and drives the audience display.</p>
+          <a class="go" href="https://github.com/Marsgate/zippy-manager">github.com/Marsgate/zippy-manager ↗</a>
+        </article>
+      </div>
+    </section>
 
-            <div data-date="June 2020 – May 2021">
-                <h3>Polywood</h3>
-                <h4>IT Intern</h4>
-                <p>
-                    I worked on the IT service desk, resolving support tickets and troubleshooting end-user issues. I also handled receiving, deploying, and retiring company equipment.
-                </p>
-            </div>
-
-            <div data-date="January 2019 – August 2019">
-                <h3>Raven Industries</h3>
-                <h4>Junior Software Engineer</h4>
-                <p>
-                    I built an internal monitoring service and Grafana dashboard to track application load for the Raven Slingshot team, and wrote fixes and enhancements in C#, PHP, and SQL for upcoming releases and patches.
-                </p>
-            </div>
+    <section id="education">
+      <div class="sec-head"><span class="no">A4</span><h2>Education</h2></div>
+      <div class="edu">
+        <div class="when">May 2023</div>
+        <div>
+          <h3>Purdue University</h3>
+          <p class="where">B.S. Robotics Engineering Technology</p>
+          <ul class="courses">
+            <li><code>MFET 24800</code>Introduction to Robotics</li>
+            <li><code>MFET 34800</code>Advanced Industrial Robotics</li>
+          </ul>
+          <p class="prose">Programmed and operated FANUC and Yamaha industrial robots, including 6-axis and SCARA arms. Set up guarding for robot work cells in a lab setting and studied how safety interlocks protect operators.</p>
         </div>
-    </div>
-    <!-- End #experience -->
-    
-    <div id="education">
-        <h2 class="heading">My Github Profile</h2>
-        <div class="education-block">
-            <div class="github-card" id="git" data-github="marsgate" data-width="400" data-height="317" data-theme="medium"></div>
-            <script src="githubcard/widget.js"></script>
-        </div>
-        <!-- End .education-block -->
-    </div>
-    <!-- End #education -->
+      </div>
+    </section>
 
-    <div id="projects" class="background-alt">
-        <h2 class="heading">Projects</h2>
-        <div class="container">
-            <div class="row">
-                <div class="project shadow-large">
-                    <div class="project-image">
-                        <img class="contain" src="images/looseygoosey.jpg" alt="Loosey Goosey Robotics logo" />
-                    </div>
-                    <!-- End .project-image -->
-                    <div class="project-info">
-                        <h3>Loosey Goosey Robotics</h3>
-                        <h4 class="project-role">Founder · 2023 – Present</h4>
-                        <p>
-                            I founded Loosey Goosey Robotics and grew it from the ground up into a casual, hands-on robotics competition for beginners and veterans alike. I also built and maintain the competition website and the resources teams use to get started.
-                        </p>
-                        <a href="https://looseygooseyrobotics.github.io/" target="_blank" rel="noopener">Visit Site</a>
-                    </div>
-                    <!-- End .project-info -->
-                </div>
-                <!-- End .project -->
+    <section id="skills">
+      <div class="sec-head"><span class="no">A5</span><h2>Skills</h2></div>
+      <dl class="skills">
+        <div class="skill"><dt>Languages</dt><dd><span>JavaScript</span><span>PHP</span><span>Java</span><span>SQL</span><span>C/C++</span></dd></div>
+        <div class="skill"><dt>Tools</dt><dd><span>React</span><span>Electron</span><span>Git</span></dd></div>
+        <div class="skill"><dt>Robotics</dt><dd><span>Industrial robotics</span><span>Autonomous mobile robotics</span><span>Machine learning</span></dd></div>
+      </dl>
+    </section>
 
-                <div class="project shadow-large">
-                    <div class="project-image">
-                        <img src="images/zippy.jpg" alt="Zippy Manager elimination bracket on the audience display" />
-                    </div>
-                    <!-- End .project-image -->
-                    <div class="project-info">
-                        <h3>Zippy Manager</h3>
-                        <h4 class="project-role">Electron · Node.js · JavaScript</h4>
-                        <p>
-                            Zippy Manager is the desktop tournament software I wrote for Loosey Goosey events. It generates match schedules, connects to mobile devices for live scoring, builds elimination brackets, and drives the audience display.
-                        </p>
-                        <a href="https://github.com/Marsgate/zippy-manager" target="_blank" rel="noopener">View on GitHub</a>
-                    </div>
-                    <!-- End .project-info -->
-                </div>
-                <!-- End .project -->
+    <section id="contact" class="contact">
+      <div>
+        <h2>Let's talk</h2>
+        <p>Wanna build dope shit together? Email is the best way to reach me.</p>
+        <div class="addr"><span id="email">micah@looseygooseyrobotics.com</span><button class="copy" id="copy" type="button">Copy</button></div>
+      </div>
+      <ul>
+        <li><a href="https://github.com/marsgate">github.com/marsgate ↗</a></li>
+        <li><a href="https://linkedin.com/in/micah-rassi">linkedin.com/in/micah-rassi ↗</a></li>      </ul>
+    </section>
 
-                <div class="project shadow-large">
-                    <div class="project-image">
-                        <img src="images/robotics2.jpg" alt="Purdue SIGbots robot" />
-                    </div>
-                    <!-- End .project-image -->
-                    <div class="project-info">
-                        <h3>Purdue SIGbots</h3>
-                        <h4 class="project-role">President · 2022</h4>
-                        <p>
-                            I was president of Purdue ACM SIGbots, Purdue's VEX U robotics team, in 2022. We designed, built, and programmed robots for top-level collegiate competition. I programmed autonomous routines that used tracking wheels and an IMU to keep track of the robot's position, along with PID and pure pursuit libraries we wrote ourselves. I was also a beta tester for PROS, the open-source VEX development environment SIGbots maintains. SIGbots teams have won VEX U World Champion titles in 2020, 2021, 2022, 2024, and 2026.
-                        </p>
-                        <a href="https://purduesigbots.com" target="_blank" rel="noopener">Learn More</a>
-                    </div>
-                    <!-- End .project-info -->
-                </div>
-                <!-- End .project -->
+    <footer>© 2026 Micah Rassi</footer>
+  </main>
+</div>
 
-            </div>
-        </div>
-    </div>
-    <!-- End #projects -->
+<script>
+(() => {
+  // copy email
+  const btn = document.getElementById('copy');
+  const email = document.getElementById('email');
+  btn.addEventListener('click', () => {
+    const done = () => { btn.textContent = 'Copied'; setTimeout(() => btn.textContent = 'Copy', 1600); };
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents(email); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selected'; };
+    try { navigator.clipboard.writeText(email.textContent).then(done, fallback); } catch (e) { fallback(); }
+  });
 
-    <div id="skills">
-        <h2 class="heading">Skills</h2>
-        <ul>
-            <li>JavaScript/React/Electron</li>
-            <li>PHP</li>
-            <li>Java</li>
-            <li>SQL</li>
-            <li>C/C++</li>
-            <li>Git</li>
-            <li>Industrial Robotics</li>
-            <li>Autonomous Mobile Robotics</li>
-            <li>Machine Learning</li>
-        </ul>
-    </div>
-    <!-- End #skills -->
+  // pure pursuit field
+  const cv = document.getElementById('field');
+  const ctx = cv.getContext('2d');
+  const FIELD = 144, LOOK = 18;
+  const wps = [[18,126],[30,70],[72,96],[110,60],[96,24],[48,30],[30,70]];
+  // Catmull-Rom through waypoints, sampled densely (field inches)
+  const path = [];
+  for (let i = 0; i < wps.length - 1; i++) {
+    const p0 = wps[Math.max(i-1,0)], p1 = wps[i], p2 = wps[i+1], p3 = wps[Math.min(i+2, wps.length-1)];
+    for (let t = 0; t < 1; t += 0.01) {
+      const t2 = t*t, t3 = t2*t;
+      const f = (a,b,c,d) => 0.5*((2*b) + (-a+c)*t + (2*a-5*b+4*c-d)*t2 + (-a+3*b-3*c+d)*t3);
+      path.push([f(p0[0],p1[0],p2[0],p3[0]), f(p0[1],p1[1],p2[1],p3[1])]);
+    }
+  }
+  path.push(wps[wps.length-1]);
+  const dist = (a,b) => Math.hypot(a[0]-b[0], a[1]-b[1]);
+  const cum = [0];
+  for (let i = 1; i < path.length; i++) cum.push(cum[i-1] + dist(path[i-1], path[i]));
+  const total = cum[cum.length-1];
+  const at = s => { let i = cum.findIndex(c => c >= s); if (i < 1) return i === 0 ? 0 : path.length-1; return i; };
 
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-5 copyright">
-                    <p>
-                        Copyright &copy; 2026 MICAH RASSI
-                    </p>
-                </div>
-                <div class="col-sm-2 top">
-                    <span id="to-top">
-                        <i class="fa fa-chevron-up" aria-hidden="true"></i>
-                    </span>
-                </div>
-                <div class="col-sm-5 social">
-                    <ul>
-                        <li>
-                            <a href="https://github.com/marsgate" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
-                        </li>
-                        <li>
-                            <a href="https://www.linkedin.com/in/micah-rassi" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- End footer -->
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  let size = 0, k = 1, colors = {};
+  function resize() {
+    const r = cv.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    size = r.width;
+    cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.width * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    k = size / FIELD;
+    colors = { grid: css('--grid'), rule: css('--rule'), ink: css('--ink'), muted: css('--muted'), accent: css('--accent'), path: css('--path'), surface: css('--surface') };
+  }
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="js/scripts.min.js"></script>
+  function draw(s) {
+    if (!size) return;
+    ctx.clearRect(0, 0, size, size);
+    // tiles
+    ctx.strokeStyle = colors.grid; ctx.lineWidth = 1;
+    for (let x = 24; x < FIELD; x += 24) {
+      ctx.beginPath(); ctx.moveTo(x*k, 0); ctx.lineTo(x*k, size); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, x*k); ctx.lineTo(size, x*k); ctx.stroke();
+    }
+    // tile labels
+    ctx.fillStyle = colors.muted; ctx.font = `${Math.max(9, 10*k/2.4)}px "IBM Plex Mono", monospace`;
+    ctx.fillText('0', 4, size - 5);
+    ctx.fillText('144', size - 24, size - 5);
+    // full path (dashed)
+    ctx.setLineDash([4, 5]); ctx.strokeStyle = colors.muted; ctx.lineWidth = 1.25;
+    ctx.beginPath(); path.forEach((p, i) => i ? ctx.lineTo(p[0]*k, p[1]*k) : ctx.moveTo(p[0]*k, p[1]*k)); ctx.stroke();
+    ctx.setLineDash([]);
+    // waypoints
+    ctx.fillStyle = colors.surface; ctx.strokeStyle = colors.ink; ctx.lineWidth = 1.5;
+    wps.slice(0, -1).forEach(p => { ctx.beginPath(); ctx.rect(p[0]*k-3, p[1]*k-3, 6, 6); ctx.fill(); ctx.stroke(); });
+
+    const i = at(s), robot = path[i];
+    // traveled
+    ctx.strokeStyle = colors.path; ctx.lineWidth = 2.5;
+    ctx.beginPath(); for (let j = 0; j <= i; j++) j ? ctx.lineTo(path[j][0]*k, path[j][1]*k) : ctx.moveTo(path[j][0]*k, path[j][1]*k); ctx.stroke();
+    // lookahead
+    const li = at(Math.min(s + LOOK, total)), look = path[li];
+    ctx.strokeStyle = colors.accent; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(robot[0]*k, robot[1]*k, LOOK*k, 0, Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(robot[0]*k, robot[1]*k); ctx.lineTo(look[0]*k, look[1]*k); ctx.stroke();
+    ctx.fillStyle = colors.accent; ctx.beginPath(); ctx.arc(look[0]*k, look[1]*k, 4.5, 0, Math.PI*2); ctx.fill();
+    // robot (18 in chassis)
+    const nx = path[Math.min(i+1, path.length-1)], pv = path[Math.max(i-1, 0)];
+    const h = Math.atan2(nx[1]-pv[1], nx[0]-pv[0]);
+    ctx.save(); ctx.translate(robot[0]*k, robot[1]*k); ctx.rotate(h);
+    const r = 9*k;
+    ctx.fillStyle = colors.ink; ctx.fillRect(-r, -r, 2*r, 2*r);
+    ctx.fillStyle = colors.accent; ctx.beginPath(); ctx.moveTo(r*0.7, 0); ctx.lineTo(-r*0.35, -r*0.5); ctx.lineTo(-r*0.35, r*0.5); ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  let s = total * 0.42, last = 0;
+  function frame(t) {
+    const dt = last ? Math.min((t - last) / 1000, 0.05) : 0; last = t;
+    s += dt * 26; if (s > total) s = 0;
+    draw(s);
+    if (!reduce.matches) requestAnimationFrame(frame);
+  }
+  const start = () => { resize(); draw(s); if (!reduce.matches) requestAnimationFrame(frame); };
+  new ResizeObserver(() => { resize(); draw(s); }).observe(cv);
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { resize(); draw(s); });
+  new MutationObserver(() => { resize(); draw(s); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(start); else start();
+})();
+</script>
 </body>
-
 </html>
